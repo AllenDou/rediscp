@@ -80,33 +80,16 @@ static void init_vars(void){
 						printf("Connection error: %s Port:%d\n", rds[i].redis->errstr,rds[i].port);
 						exit(1);
 				}
-				/*
-				   redisReply *rp ;
-				   rp = redisCmd(rds[i].redis,"CONFIG GET %s","databases");
-				   rds[i].cap = atoi(rp->element[1]->str);
-				   freeRpl(rp);
-				   */
-
 		}
-		/*
-		   if(force != FORCE && (rds[SRC].cap > rds[DST].cap || dbn > rds[SRC].cap)){
-		   fprintf(stderr,"redis src' databases is larger than target's OR specified db index > src's , please fix it.\r\n");
-		   goto err;
-		   }
-		   */
+
 		return ;
-		/*
-err:
-redisFree(rds[SRC].redis);
-redisFree(rds[DST].redis);
-exit(1);
-*/
 }
 
 static void import(char * key , redisReply * reply,char* type){
 
 		int i;
 		struct redisReply **rpl = reply->element;
+
 		if(!strcmp(type,"string")){
 				redisCmd(rds[DST].redis,"SET %s %s",key,reply->str);
 		}else if(!strcmp(type,"zset")){
