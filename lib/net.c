@@ -113,7 +113,7 @@ static int redisSetBlocking(redisContext *c, int fd, int blocking) {
     return REDIS_OK;
 }
 
-static int redisKeepAlive(redisContext *c,int fd,int interval){
+static int redisKeepAlive(redisContext *c,int fd,int interval) {
 
 	/*keepalive*/
 	int val = 1;
@@ -271,7 +271,7 @@ int redisContextConnectTcp(redisContext *c, const char *addr, int port, struct t
             goto error;
         if (redisSetTcpNoDelay(c,s) != REDIS_OK)
             goto error;
-        if (redisKeepAlive(c,s,REDIS_CLI_KEEPALIVE_INTERVAL) != REDIS_OK)
+        if (redisKeepAlive(c,s,REDIS_KEEPALIVE_INTERVAL) != REDIS_OK)
             goto error;
 
         c->fd = s;
