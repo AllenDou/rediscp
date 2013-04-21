@@ -80,6 +80,8 @@ static void init_vars(void){
 						printf("Connection error: %s Port:%d\n", rds[i].redis->errstr,rds[i].port);
 						exit(1);
 				}
+				if(redisEnableKeepAlive(rds[i].redis) != REDIS_OK)
+						exit(1);
 		}
 
 		return ;
@@ -141,16 +143,16 @@ static void export(void){
 						goto err;
 				}
 				freeRpl(reply);
-				
+
 				/*get all key.*/
 				redisReply *keys;
 				keys = redisCmd(rds[SRC].redis,"KEYS *");
 
 				int j;
 				for(j=0;j<keys->elements;j++){
-						
+
 						char *key = keys->element[j]->str;
-						
+
 						/*type.*/
 						redisReply *type;
 						type = redisCmd(rds[SRC].redis,"type %s",key);
